@@ -1,0 +1,45 @@
+package com.example.paginas.Navigation
+
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
+import com.example.paginas.pages.HomeScreen
+import com.example.paginas.pages.ProductDetailScreen
+import  com.example.paginas.Models.*
+import com.example.paginas.pages.ProfileScreen
+
+@Composable
+fun NavigationWrapper(){
+    val backStack = remember { mutableStateListOf<Any>(Routes.First) }
+
+    NavDisplay(
+        backStack = backStack,
+        onBack = {backStack.removeLastOrNull()},
+        entryProvider = entryProvider {
+            entry<Routes.First>{
+                HomeScreen(
+                    SecondScreen = {backStack.add(Routes.Second)},
+                    homeProductsList = homeProductsList
+                )
+            }
+            entry<Routes.Second> {
+                ProductDetailScreen(
+                    onBackClick = {backStack.removeLastOrNull()},
+                    {backStack.add(Routes.Third)}
+                )
+            }
+            entry<Routes.Third> {
+                ProfileScreen(
+                    onBackClick = {backStack.removeLastOrNull()}
+                )
+            }
+            entry<Routes.Error> {
+                Text("Error al consultar la pagina ...")
+            }
+        }
+    )
+}
