@@ -23,22 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.paginas.R
-
-// ==========================================
-// PALETA DE COLORES
-// ==========================================
-private val DarkTeal = Color(0xFF004D40)
-private val PaleGreenBg = Color(0xFFF1F8E9)
-private val AccentGold = Color(0xFFFBC02D)
-private val TextDark = Color(0xFF212121)
-private val TextLight = Color(0xFF757575)
-
-
-
+import com.example.paginas.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(SecondScreen: () -> Unit, homeProductsList: List<ProductItem> ) {
+fun HomeScreen(SecondScreen: () -> Unit, homeProductsList: List<ProductItem>, primera:()-> Unit, tercera:()-> Unit ) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -67,7 +56,7 @@ fun HomeScreen(SecondScreen: () -> Unit, homeProductsList: List<ProductItem> ) {
                     icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
                     label = { Text("Home") },
                     selected = true,
-                    onClick = { },
+                    onClick = primera,
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = AccentGold,
                         selectedTextColor = AccentGold,
@@ -90,7 +79,7 @@ fun HomeScreen(SecondScreen: () -> Unit, homeProductsList: List<ProductItem> ) {
                     icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
                     label = { Text("Profile") },
                     selected = false,
-                    onClick = { },
+                    onClick = tercera,
                     colors = NavigationBarItemDefaults.colors(
                         unselectedIconColor = Color.White.copy(alpha = 0.6f),
                         unselectedTextColor = Color.White.copy(alpha = 0.6f)
@@ -178,9 +167,7 @@ fun HomeScreen(SecondScreen: () -> Unit, homeProductsList: List<ProductItem> ) {
     }
 }
 
-// ==========================================
-// COMPONENTES SECUNDARIOS DEL HOME
-// ==========================================
+
 
 @Composable
 private fun HomeSectionHeader(title: String) {
@@ -253,9 +240,7 @@ private fun HomeProductCard(product: ProductItem, onClick: () -> Unit) {
     }
 }
 
-// ==========================================
-// PREVIEW EN ANDROID STUDIO
-// ==========================================
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {

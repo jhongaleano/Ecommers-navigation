@@ -24,23 +24,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.paginas.R
 
-// ==========================================
-// PALETA DE COLORES
-// ==========================================
-private val DarkTeal = Color(0xFF004D40)
-private val PaleGreenBg = Color(0xFFF1F8E9)
-private val AccentGold = Color(0xFFFBC02D)
-private val TextDark = Color(0xFF212121)
-private val TextLight = Color(0xFF757575)
-
-// ==========================================
-// VISTA PRINCIPAL: ProductDetailScreen
-// ==========================================
+import com.example.paginas.ui.theme.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(
     onBackClick: () -> Unit,
-    ThirdScreen: ()-> Unit
+    ThirdScreen: ()-> Unit,
+    primera:()-> Unit
 ) {
 
     Scaffold(
@@ -70,7 +60,7 @@ fun ProductDetailScreen(
                     icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
                     label = { Text("Home") },
                     selected = false,
-                    onClick = onBackClick,
+                    onClick = primera,
                     colors = NavigationBarItemDefaults.colors(
                         unselectedIconColor = Color.White.copy(alpha = 0.6f),
                         unselectedTextColor = Color.White.copy(alpha = 0.6f)
@@ -183,18 +173,12 @@ fun ProductDetailScreen(
             // 4. Selector de Tallas (Size)
             Text("Size", fontWeight = FontWeight.Bold, color = TextDark, fontSize = 16.sp)
             Spacer(modifier = Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-
-            }
 
             Spacer(modifier = Modifier.height(20.dp))
 
             // 5. Selector de Colores (Color)
             Text("Color", fontWeight = FontWeight.Bold, color = TextDark, fontSize = 16.sp)
             Spacer(modifier = Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-
-            }
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -216,51 +200,6 @@ fun ProductDetailScreen(
             }
         }
     }
-}
-
-// ==========================================
-// COMPONENTES SECUNDARIOS DE DETALLE
-// ==========================================
-
-@Composable
-private fun DetailSizeChip(
-    size: String,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    Surface(
-        onClick = onClick,
-        modifier = Modifier.size(44.dp),
-        shape = CircleShape,
-        color = if (isSelected) AccentGold else Color.White,
-        border = if (isSelected) null else BorderStroke(1.dp, Color.LightGray)
-    ) {
-        Box(contentAlignment = Alignment.Center) {
-            Text(
-                text = size,
-                fontWeight = FontWeight.Bold,
-                color = if (isSelected) DarkTeal else TextDark
-            )
-        }
-    }
-}
-
-@Composable
-private fun DetailColorChip(
-    color: Color,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    Surface(
-        onClick = onClick,
-        modifier = Modifier.size(36.dp),
-        shape = CircleShape,
-        color = color,
-        border = BorderStroke(
-            width = if (isSelected) 3.dp else 1.dp,
-            color = if (isSelected) AccentGold else Color.LightGray
-        )
-    ) {}
 }
 
 // ==========================================

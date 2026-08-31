@@ -23,21 +23,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.paginas.R
+import com.example.paginas.ui.theme.*
 
 
-private val DarkTeal = Color(0xFF004D40)
-private val PaleGreenBg = Color(0xFFF1F8E9)
-private val AccentGold = Color(0xFFFBC02D)
-private val TextDark = Color(0xFF212121)
-private val TextLight = Color(0xFF757575)
 
-// ==========================================
-// VISTA PRINCIPAL: ProfileScreen
-// ==========================================
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     onBackClick: () -> Unit,
+    primera:()-> Unit,
+    segunda:()->Unit
 
 ) {
     Scaffold(
@@ -66,7 +63,7 @@ fun ProfileScreen(
                     icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
                     label = { Text("Home") },
                     selected = false,
-                    onClick = { },
+                    onClick = primera,
                     colors = NavigationBarItemDefaults.colors(
                         unselectedIconColor = Color.White.copy(alpha = 0.6f),
                         unselectedTextColor = Color.White.copy(alpha = 0.6f)
@@ -76,7 +73,7 @@ fun ProfileScreen(
                     icon = { Icon(Icons.Default.List, contentDescription = "Productos") },
                     label = { Text("Products") },
                     selected = false,
-                    onClick = onBackClick,
+                    onClick = segunda,
                     colors = NavigationBarItemDefaults.colors(
                         unselectedIconColor = Color.White.copy(alpha = 0.6f),
                         unselectedTextColor = Color.White.copy(alpha = 0.6f)
