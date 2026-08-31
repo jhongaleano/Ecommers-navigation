@@ -24,7 +24,7 @@ fun NavigationWrapper(){
         entryProvider = entryProvider {
             entry<Routes.Login> {
                 LoginScreen(
-                    FirstScreen = {backStack.add(Routes.First)},
+                    FirstScreen = {usuario,pass -> backStack.add(Routes.CapturarDatos(user = usuario, pass = pass))},
                     {backStack.add(Routes.Register)}
                 )
             }
@@ -39,7 +39,7 @@ fun NavigationWrapper(){
                     SecondScreen = {backStack.add(Routes.Second)},
                     homeProductsList = homeProductsList,
                     {backStack.add(Routes.First)},
-                    {backStack.add(Routes.Third)}
+                    { backStack.add(Routes.Third)},
                 )
             }
             entry<Routes.Second> {
@@ -50,11 +50,13 @@ fun NavigationWrapper(){
 
                 )
             }
-            entry<Routes.Third> {
+            entry<Routes.CapturarDatos> {key->
                 ProfileScreen(
                     onBackClick = {backStack.removeLastOrNull()},
                     {backStack.add(Routes.First)},
-                    {backStack.add(Routes.Second)}
+                    {backStack.add(Routes.Second)},
+                    key.user,
+                    key.pass
                 )
             }
             entry<Routes.Error> {

@@ -34,7 +34,9 @@ import com.example.paginas.ui.theme.*
 fun ProfileScreen(
     onBackClick: () -> Unit,
     primera:()-> Unit,
-    segunda:()->Unit
+    segunda:()->Unit,
+    user: String,
+    pass: String
 
 ) {
     Scaffold(
@@ -148,13 +150,13 @@ fun ProfileScreen(
                         Spacer(modifier = Modifier.height(12.dp))
 
                         Text(
-                            text = "Sophia Martinez",
+                            text = user,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             color = TextDark
                         )
                         Text(
-                            text = "sophia.martinez@email.com",
+                            text = pass,
                             fontSize = 14.sp,
                             color = TextLight
                         )

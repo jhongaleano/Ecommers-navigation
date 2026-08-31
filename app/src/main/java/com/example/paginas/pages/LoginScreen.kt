@@ -34,8 +34,10 @@ import androidx.compose.ui.unit.sp
 import com.example.paginas.ui.theme.*
 
 @Composable
-fun LoginScreen(FirstScreen: ()-> Unit,RegisScreen:()-> Unit){
-    var value by remember{mutableStateOf("Hello")}
+fun LoginScreen(FirstScreen: (user:String,pass: String)-> Unit, RegisScreen:()-> Unit){
+    var value by remember{mutableStateOf("")}
+    var value2 by remember{mutableStateOf("")}
+
 
     Surface(
         modifier = Modifier.background(Color.White)
@@ -67,18 +69,18 @@ fun LoginScreen(FirstScreen: ()-> Unit,RegisScreen:()-> Unit){
                 )
 
                 OutlinedTextField(
-                    value = value,
+                    value = value2,
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = DarkTeal,
                         unfocusedBorderColor = Color.Gray,
 
                         ),
-                    onValueChange = { value = it },
+                    onValueChange = { value2 = it },
                     label = { Text(text = "Contraseña") },
                     modifier = Modifier.padding(bottom = 25.dp)
                 )
 
-                Button(FirstScreen,
+                Button({FirstScreen(value,value2)},
                     modifier = Modifier.padding(bottom = 12.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = DarkTeal,
@@ -103,6 +105,8 @@ fun LoginScreen(FirstScreen: ()-> Unit,RegisScreen:()-> Unit){
                         Text("Registrate aqui")
                     }
                 }
+
+
             }
         }
 

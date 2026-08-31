@@ -21,4 +21,10 @@ sealed class Routes : NavKey {
     data object Register : Routes()
     @Serializable
     data object  Error : Routes()
+
+    @Serializable
+    data class CapturarDatos(
+        var pass: String,
+        var user : String
+    ): Routes()
 }
