@@ -55,6 +55,9 @@ dependencies {
     implementation(libs.kotlinx.serialization.core)
 
 
+    implementation(libs.androidx.room.ktx)
+
+
 
 
     implementation(platform(libs.androidx.compose.bom))

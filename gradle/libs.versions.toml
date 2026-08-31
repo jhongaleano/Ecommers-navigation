@@ -14,6 +14,8 @@ nav3Core = "1.0.0"
 kotlinxSerializationCore="1.8.1"
 kotlinxSerialization="2.4.10"
 
+roomKtx="2.8.4"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -36,6 +38,9 @@ androidx-navigation3-ui={module = "androidx.navigation3:navigation3-ui",version.
 
 
 kotlinx-serialization-core={module="org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref ="kotlinxSerializationCore"}
+
+#argumentos
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
