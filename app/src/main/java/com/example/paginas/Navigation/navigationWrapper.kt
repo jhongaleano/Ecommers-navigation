@@ -42,14 +42,23 @@ fun NavigationWrapper(){
                     { backStack.add(Routes.Third)},
                 )
             }
-            entry<Routes.Second> {
+            entry<Routes.Second> {key ->
                 ProductDetailScreen(
+                    product = key.product,
+                    isinCart = false,
+                    onAddToCart = {product ->
+
+                    },
                     onBackClick = {backStack.removeLastOrNull()},
                     {backStack.add(Routes.Third)},
                     {backStack.add(Routes.First)},
+                    {backStack.add((Routes.Cart))}
 
                 )
             }
+
+            entry<Routes.Cart> {  }
+
             entry<Routes.CapturarDatos> {key->
                 ProfileScreen(
                     onBackClick = {backStack.removeLastOrNull()},

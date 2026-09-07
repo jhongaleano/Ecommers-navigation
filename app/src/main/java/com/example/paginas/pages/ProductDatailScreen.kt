@@ -22,15 +22,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.paginas.Models.ProductItem
 import com.example.paginas.R
 
 import com.example.paginas.ui.theme.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(
+    product: ProductItem,
+    isinCart: Boolean,
+    onAddToCart:(ProductItem)-> Unit,
     onBackClick: () -> Unit,
     ThirdScreen: ()-> Unit,
-    primera:()-> Unit
+    primera:()-> Unit,
+    onNavigateToCart:()-> Unit
 ) {
 
     Scaffold(
@@ -46,7 +51,7 @@ fun ProductDetailScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* Acción carrito */ }) {
+                    IconButton(onClick = onNavigateToCart) {
                         Icon(Icons.Default.ShoppingCart, contentDescription = "Carrito", tint = Color.White)
                     }
                 },
@@ -120,7 +125,7 @@ fun ProductDetailScreen(
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.ic_launcher_background),
+                    painter = painterResource(product.imageUrl),
                     contentDescription = "Artisan Leather Bag",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
@@ -136,20 +141,15 @@ fun ProductDetailScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Artisan Leather Bag",
+                    text = product.name,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = TextDark
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.Star,
-                        contentDescription = "Rating",
-                        tint = AccentGold,
-                        modifier = Modifier.size(20.dp)
-                    )
+
                     Text(
-                        text = "4.8",
+                        text = "price: $${product.price}",
                         fontWeight = FontWeight.Bold,
                         color = TextDark,
                         fontSize = 16.sp,
@@ -162,7 +162,7 @@ fun ProductDetailScreen(
 
             // 3. Descripción
             Text(
-                text = "Handmade with genuine full-grain leather. Dimensions: 12x10x4 inches. Perfect for everyday use with adjustable straps.",
+                text = product.description,
                 color = TextLight,
                 fontSize = 14.sp,
                 lineHeight = 20.sp
@@ -183,21 +183,35 @@ fun ProductDetailScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             // 6. Botón Añadir al Carrito (Material 3 Button)
-            Button(
-                onClick = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = AccentGold),
-                shape = RoundedCornerShape(26.dp)
-            ) {
-                Text(
-                    text = "Add to Cart - $120.00",
-                    color = DarkTeal,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
-                )
+
+            if (isinCart) {
+                OutlinedButton(
+                    onClick = onNavigateToCart,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.Check, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("En el carrito — Ver carrito")
+                }
+            } else {
+                Button(
+                    onClick = {onAddToCart(product)},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = AccentGold),
+                    shape = RoundedCornerShape(26.dp)
+                ) {
+                    Text(
+                        text = "Add to Cart - $${product.price}",
+                        color = DarkTeal,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                }
             }
+
+
         }
     }
 }
