@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.paginas.Models.ProductItem
 import com.example.paginas.R
 import com.example.paginas.ui.theme.*
 
@@ -35,9 +36,7 @@ fun ProfileScreen(
     onBackClick: () -> Unit,
     primera:()-> Unit,
     segunda:()->Unit,
-    user: String,
-    pass: String
-
+    product: ProductItem,
 ) {
     Scaffold(
         topBar = {
@@ -150,16 +149,12 @@ fun ProfileScreen(
                         Spacer(modifier = Modifier.height(12.dp))
 
                         Text(
-                            text = user,
+                            text = product.user,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             color = TextDark
                         )
-                        Text(
-                            text = pass,
-                            fontSize = 14.sp,
-                            color = TextLight
-                        )
+
                     }
                 }
             }

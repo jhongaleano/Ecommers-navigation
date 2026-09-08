@@ -6,17 +6,19 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.paginas.pages.HomeScreen
 import com.example.paginas.pages.ProductDetailScreen
 import  com.example.paginas.Models.*
+import com.example.paginas.pages.CartScreen
 import com.example.paginas.pages.LoginScreen
 import com.example.paginas.pages.ProfileScreen
 import com.example.paginas.pages.RegisterScreen
 
 @Composable
 fun NavigationWrapper(){
-    val backStack = remember { mutableStateListOf<Any>(Routes.Login) }
+    val backStack = rememberNavBackStack(Routes.Login)
 
     NavDisplay(
         backStack = backStack,
@@ -24,7 +26,7 @@ fun NavigationWrapper(){
         entryProvider = entryProvider {
             entry<Routes.Login> {
                 LoginScreen(
-                    FirstScreen = {usuario,pass -> backStack.add(Routes.CapturarDatos(user = usuario, pass = pass))},
+                    FirstScreen = {backStack.add(Routes.First)},
                     {backStack.add(Routes.Register)}
                 )
             }
@@ -36,11 +38,17 @@ fun NavigationWrapper(){
             }
             entry<Routes.First>{
                 HomeScreen(
-                    SecondScreen = {backStack.add(Routes.Second)},
+                    SecondScreen = {},
                     homeProductsList = homeProductsList,
                     {backStack.add(Routes.First)},
-                    { backStack.add(Routes.Third)},
+                    { },
+                    { seletedProduct ->
+
+                        backStack.add(Routes.Second(product = seletedProduct))
+                    },
+                    cartpages = {backStack.add(Routes.Cart)}
                 )
+
             }
             entry<Routes.Second> {key ->
                 ProductDetailScreen(
@@ -50,22 +58,27 @@ fun NavigationWrapper(){
 
                     },
                     onBackClick = {backStack.removeLastOrNull()},
-                    {backStack.add(Routes.Third)},
+                    {backStack.add(Routes.Third(key.product))},
                     {backStack.add(Routes.First)},
                     {backStack.add((Routes.Cart))}
 
                 )
             }
 
-            entry<Routes.Cart> {  }
+            entry<Routes.Cart> {
+                CartScreen(
+                    cartItems = homeProductsList,
+                    totalPrice = 222.40
+                )
+            }
 
-            entry<Routes.CapturarDatos> {key->
+            entry<Routes.Third> {key->
                 ProfileScreen(
                     onBackClick = {backStack.removeLastOrNull()},
                     {backStack.add(Routes.First)},
-                    {backStack.add(Routes.Second)},
-                    key.user,
-                    key.pass
+                    {
+                        backStack.add(Routes.Second(key.product))},
+                    product = key.product
                 )
             }
             entry<Routes.Error> {

@@ -8,14 +8,18 @@ import java.net.NoRouteToHostException
 sealed class Routes : NavKey {
     @Serializable
     data object First : Routes()
-
+    /*@Serializable
+    data object Second: Routes()
+*/
     @Serializable
     data class Second(
         val product : ProductItem
     ) : Routes()
 
     @Serializable
-    data object Third : Routes()
+    data class Third(
+        val product : ProductItem
+    ) : Routes()
     @Serializable
     data object Cart : Routes()
 

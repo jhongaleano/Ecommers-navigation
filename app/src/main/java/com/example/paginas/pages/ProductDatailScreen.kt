@@ -4,7 +4,12 @@ package com.example.paginas.pages
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -109,112 +114,116 @@ fun ProductDetailScreen(
         containerColor = PaleGreenBg
     ) { innerPadding ->
         // CONTENIDO PRINCIPAL (Scrollable)
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp)
-        ) {
-            // 1. Imagen Principal del Producto
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp),
-                shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-            ) {
-                Image(
-                    painter = painterResource(product.imageUrl),
-                    contentDescription = "Artisan Leather Bag",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // 2. Nombre, Precio y Calificación
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = product.name,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = TextDark
-                )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-
-                    Text(
-                        text = "price: $${product.price}",
-                        fontWeight = FontWeight.Bold,
-                        color = TextDark,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // 3. Descripción
-            Text(
-                text = product.description,
-                color = TextLight,
-                fontSize = 14.sp,
-                lineHeight = 20.sp
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // 4. Selector de Tallas (Size)
-            Text("Size", fontWeight = FontWeight.Bold, color = TextDark, fontSize = 16.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // 5. Selector de Colores (Color)
-            Text("Color", fontWeight = FontWeight.Bold, color = TextDark, fontSize = 16.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // 6. Botón Añadir al Carrito (Material 3 Button)
-
-            if (isinCart) {
-                OutlinedButton(
-                    onClick = onNavigateToCart,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(Icons.Default.Check, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("En el carrito — Ver carrito")
-                }
-            } else {
-                Button(
-                    onClick = {onAddToCart(product)},
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = AccentGold),
-                    shape = RoundedCornerShape(26.dp)
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .verticalScroll(rememberScrollState())
+                        .padding(16.dp)
                 ) {
+                    // 1. Imagen Principal del Producto
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(product.imageUrl),
+                            contentDescription = "Artisan Leather Bag",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // 2. Nombre, Precio
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = product.name,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = TextDark
+                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+
+                            Text(
+                                text = "price: $${product.price}",
+                                fontWeight = FontWeight.Bold,
+                                color = TextDark,
+                                fontSize = 16.sp,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // 3. Descripción
                     Text(
-                        text = "Add to Cart - $${product.price}",
-                        color = DarkTeal,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        text = product.description,
+                        color = TextLight,
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp
                     )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    // 4. Selector de Tallas (Size)
+                    Text("Size", fontWeight = FontWeight.Bold, color = TextDark, fontSize = 16.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    // 5. Selector de Colores (Color)
+                    Text("Color", fontWeight = FontWeight.Bold, color = TextDark, fontSize = 16.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    // 6. Botón Añadir al Carrito (Material 3 Button)
+
+                    if (isinCart) {
+                        OutlinedButton(
+                            onClick = onNavigateToCart,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Icon(Icons.Default.Check, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("En el carrito — Ver carrito")
+                        }
+                    } else {
+                        Button(
+                            onClick = {onAddToCart(product)},
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(52.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = AccentGold),
+                            shape = RoundedCornerShape(26.dp)
+                        ) {
+                            Text(
+                                text = "Add to Cart - $${product.price}",
+                                color = DarkTeal,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp
+                            )
+                        }
+                    }
+
+
                 }
-            }
 
 
-        }
+
     }
 }
+
 
 // ==========================================
 // PREVIEW EN ANDROID STUDIO

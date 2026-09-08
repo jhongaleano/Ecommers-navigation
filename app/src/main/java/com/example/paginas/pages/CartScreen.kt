@@ -35,9 +35,10 @@ import com.example.paginas.R
 fun CartScreen(
     cartItems: List<ProductItem>,
     totalPrice: Double,
-    onRemoveItem: (ProductItem) -> Unit,
-    onClearCart: () -> Unit,
-    onBack: () -> Unit,
+    //onRemoveItem: (ProductItem) -> Unit,
+    //onClearCart: () -> Unit,
+    //onBack: () -> Unit,
+
 ) {
     if (cartItems.isEmpty()) {
         Box(
@@ -81,7 +82,7 @@ fun CartScreen(
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
-                        IconButton(onClick = { onRemoveItem(product) }) {
+                        IconButton(onClick = {  }) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
                                 contentDescription = "Eliminar",
@@ -114,7 +115,7 @@ fun CartScreen(
                     )
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton(onClick = onClearCart) {
+                    OutlinedButton({}) {
                         Text("Vaciar")
                     }
                     Button(onClick = { /* Pagar */ }) {
@@ -133,7 +134,7 @@ fun CartScreen(
 @Composable
 fun PreviewCartScreen(){
     val producto = listOf(
-        ProductItem(1, "Auriculares Bluetooth",  "Cancelación de ruido activa, 30h de batería.",59.99,R.drawable.ic_launcher_background)
+        ProductItem(1, "Auriculares Bluetooth",  "Cancelación de ruido activa, 30h de batería.",59.99,R.drawable.ic_launcher_background,"andres")
     )
-    CartScreen(producto, 122.500, {}, {},{})
+    CartScreen(producto, 122.500,)
 }

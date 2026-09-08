@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.example.paginas.ui.theme.*
 
 @Composable
-fun LoginScreen(FirstScreen: (user:String,pass: String)-> Unit, RegisScreen:()-> Unit){
+fun LoginScreen(FirstScreen: ()-> Unit, RegisScreen:()-> Unit){
     var value by remember{mutableStateOf("")}
     var value2 by remember{mutableStateOf("")}
 
@@ -80,7 +80,7 @@ fun LoginScreen(FirstScreen: (user:String,pass: String)-> Unit, RegisScreen:()->
                     modifier = Modifier.padding(bottom = 25.dp)
                 )
 
-                Button({FirstScreen(value,value2)},
+                Button(FirstScreen,
                     modifier = Modifier.padding(bottom = 12.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = DarkTeal,

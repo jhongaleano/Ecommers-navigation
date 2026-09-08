@@ -27,7 +27,13 @@ import com.example.paginas.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(SecondScreen: () -> Unit, homeProductsList: List<ProductItem>, primera:()-> Unit, tercera:()-> Unit ) {
+fun HomeScreen(SecondScreen: () -> Unit,
+               homeProductsList: List<ProductItem>,
+               primera:()-> Unit,
+               tercera:()-> Unit,
+               onProductClick: (ProductItem) -> Unit,
+               cartpages:()-> Unit
+               ) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -97,6 +103,11 @@ fun HomeScreen(SecondScreen: () -> Unit, homeProductsList: List<ProductItem>, pr
                 )
             }
         },
+        floatingActionButton = {
+            FloatingActionButton(cartpages) {
+                Icon(Icons.Default.ShoppingCart, contentDescription = "carrito de compras")
+            }
+        },
         containerColor = PaleGreenBg
     ) { innerPadding ->
         LazyColumn(
@@ -145,9 +156,10 @@ fun HomeScreen(SecondScreen: () -> Unit, homeProductsList: List<ProductItem>, pr
             item {
                 HomeSectionHeader(title = "New Products")
                 Spacer(modifier = Modifier.height(8.dp))
+
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(homeProductsList) { product ->
-                        HomeProductCard(product = product, onClick = SecondScreen)
+                        HomeProductCard(product = product, onClick = {onProductClick(product)})
                     }
                 }
                 Spacer(modifier = Modifier.height(24.dp))
@@ -159,7 +171,7 @@ fun HomeScreen(SecondScreen: () -> Unit, homeProductsList: List<ProductItem>, pr
                 Spacer(modifier = Modifier.height(8.dp))
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(homeProductsList.reversed()) { product ->
-                        HomeProductCard(product = product, onClick = { SecondScreen })
+                        HomeProductCard(product = product, onClick =  {onProductClick(product)} )
                     }
                 }
             }
@@ -188,7 +200,8 @@ private fun HomeProductCard(product: ProductItem, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .width(160.dp)
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            ,
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)

@@ -8,6 +8,7 @@ data class ProductItem(
     val name: String,
     val description: String,
     val price: Double,
-    val imageUrl: Int
+    val imageUrl: Int,
+    val user: String
 )
 
