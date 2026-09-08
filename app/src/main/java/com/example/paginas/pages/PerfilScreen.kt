@@ -34,8 +34,8 @@ import com.example.paginas.ui.theme.*
 @Composable
 fun ProfileScreen(
     onBackClick: () -> Unit,
-    primera:()-> Unit,
-    segunda:()->Unit,
+    primera: () -> Unit,
+    segunda: () -> Unit,
     product: ProductItem,
 ) {
     Scaffold(
@@ -117,7 +117,7 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // 1. Tarjeta de Encabezado de Usuario
-            item {
+            item{
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = Color.White),

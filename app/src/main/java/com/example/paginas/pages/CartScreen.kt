@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -23,6 +22,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -30,17 +32,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.paginas.Models.ProductItem
 import com.example.paginas.R
-
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 @Composable
 fun CartScreen(
     cartItems: List<ProductItem>,
     totalPrice: Double,
-    //onRemoveItem: (ProductItem) -> Unit,
-    //onClearCart: () -> Unit,
+    onClear:()-> Unit,
+    onRemoveItem: (ProductItem) -> Unit,
     //onBack: () -> Unit,
 
 ) {
-    if (cartItems.isEmpty()) {
+    var items by remember { mutableStateOf(cartItems) }
+    if (items.isEmpty()) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -59,7 +64,7 @@ fun CartScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(cartItems, key = { it.id }) { product ->
+            items(items, key = {it.id}) { product ->
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -82,7 +87,7 @@ fun CartScreen(
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
-                        IconButton(onClick = {  }) {
+                        IconButton(onClick = {onRemoveItem(product)}) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
                                 contentDescription = "Eliminar",
@@ -115,7 +120,7 @@ fun CartScreen(
                     )
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton({}) {
+                    OutlinedButton({ onClear()}) {
                         Text("Vaciar")
                     }
                     Button(onClick = { /* Pagar */ }) {
@@ -136,5 +141,5 @@ fun PreviewCartScreen(){
     val producto = listOf(
         ProductItem(1, "Auriculares Bluetooth",  "Cancelación de ruido activa, 30h de batería.",59.99,R.drawable.ic_launcher_background,"andres")
     )
-    CartScreen(producto, 122.500,)
+    CartScreen(producto, 122.500,{},{})
 }
